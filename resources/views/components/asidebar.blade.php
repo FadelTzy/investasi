@@ -21,7 +21,7 @@
             </ul>
           </li>
         <li class="nav-item {{ Request::segment(2) == 'data-notif' ? 'active' : '' }}">
-            <a href=" {{ route('matkul.index') }}" class="nav-link"><i class="fas fa-columns"></i>
+            <a href=" {{ route('notif.index') }}" class="nav-link"><i class="fas fa-columns"></i>
                 <span>Notifikasi</span></a>
 
         </li>
