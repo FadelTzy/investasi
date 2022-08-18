@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('riwayat_invests', function (Blueprint $table) {
+        Schema::create('tipe_invests', function (Blueprint $table) {
             $table->id();
-            $table->string('id_user')->nullable();
-            $table->string('jumlah_depo')->nullable();
-            $table->string('status')->nullable()->comment('1 disetujui 2 ditolak');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('riwayat_invests');
+        Schema::dropIfExists('tipe_invests');
     }
 };
