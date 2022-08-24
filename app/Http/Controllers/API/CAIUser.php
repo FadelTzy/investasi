@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Http\Resources\UserResource;
+use App\Models\ktp;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -49,13 +50,61 @@ class CAIUser extends Controller
             return response()->json(new UserResource(false, 'Gagal Registrasi', 'Data tidak Lengkap'));
         }
 
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
 
-        $user = User::create([
-            'nama' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        return response()->json(new UserResource(true, 'Berhasil Registrasi', $user));
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // File extension
+            $extension = $file->getClientOriginalExtension();
+
+            // File upload location
+            $location = 'file/ktp';
+
+            // Upload file
+            $file->move($location, $filename);
+
+            // File path
+            $filepath = url('file/ktp' . $filename);
+
+            $user = User::create([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'username' => $request->username,
+                'role' => 3,
+                'is_active' => 0,
+                'status' => 0,
+                'kode' => 0,
+                'password' => Hash::make($request->password),
+            ]);
+
+            $ktps = ktp::create([
+                'id_user' => $user->id,
+                'nama' => $request->nama,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jk' => $request->jk,
+                'alamat' => $request->alamat,
+                'rt' => $request->rt,
+                'rw' => $request->rw,
+                'kel_des' => $request->kel_des,
+                'kecamatan' => $request->kecamatan,
+                'provinsi' => $request->provinsi,
+                'kabupaten_kota' => $request->kabupaten_kota,
+                'agama' => $request->agama,
+                'goldar' => $request->goldar,
+                'pekerjaan' => $request->pekerjaan,
+                'nik' => $request->nik,
+                'foto' => $filepath,
+                'status_kawin' => $request->status_kawin,
+                'warganegara' => $request->warganegara,
+            ]);
+
+
+            return response()->json(new UserResource(true, 'Berhasil Registrasi', $user, $ktps));
+        } else {
+            return response()->json(new UserResource(false, 'Gagal Foto', 'Tidak ada Foto'));
+        }
     }
 
     public function login(Request $request)
