@@ -1,11 +1,11 @@
 <?php
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PembelajaranController;
-use App\Http\Controllers\MatakuliahController;
-use App\Http\Controllers\MateriController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\NotifController;
-use App\Http\Controllers\TugasController;
+use App\Http\Controllers\TipeInvestController;
+use App\Http\Controllers\PengajuanInvestasiController;
+use App\Http\Controllers\RiwayatInvestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,27 +45,37 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/data-notif/update', [NotifController::class, 'notifupdate'])->name('notif.update');
     Route::delete('/data-notif/{id}', [NotifController::class, 'notifhapus'])->name('notif.destroy');
 
+    //saldo-user
+    Route::get('/saldo-user', [DepositController::class, 'saldo'])->name('saldo.index');
+    //pengajuan
 
-    //text
-    Route::get('/data-materi/{id}/text', [materiController::class, 'materitext']);
-    Route::post('/data-materi/text', [materiController::class, 'materitextstore'])->name('materitext.store');
-    Route::post('/data-materi/textup', [materiController::class, 'materitextupdate'])->name('materitext.update');
-    Route::delete('/data-materi/{id}/text', [materiController::class, 'materitexthapus']);
+    Route::get('/saldo-user/{id}', [PengajuanInvestasiController::class, 'pengajuan'])->name('pengajuan.index');
+    Route::post('/saldo-user/pengajuan-investasi', [PengajuanInvestasiController::class, 'store'])->name('pengajuan.store');
+    Route::post('/saldo-user/pengajuan-investasi/edit', [PengajuanInvestasiController::class, 'edit'])->name('pengajuan.edit');
+    Route::delete('/saldo-user/pengajuan-investasi/{id}', [PengajuanInvestasiController::class, 'destroy'])->name('pengajuan.destroy');
+    Route::delete('/saldo-user/pengajuan-investasi/delete/{id}', [PengajuanInvestasiController::class, 'delete'])->name('pengajuan.delete');
+    //wd
+    Route::get('/saldo-user/{id}/wd', [PengajuanInvestasiController::class, 'wd'])->name('wd.index');
+    Route::post('/saldo-user/wd', [PengajuanInvestasiController::class, 'storewd'])->name('wd.storewd');
 
-    Route::get('/data-materi/{id}/file', [materiController::class, 'materifile']);
-    Route::post('/data-materi/file', [materiController::class, 'materifilestore'])->name('materifile.store');
-    Route::post('/data-materi/fileup', [materiController::class, 'materifileupdate'])->name('materifile.update');
-    Route::delete('/data-materi/{id}/file', [materiController::class, 'materifilehapus']);
+    //depo
+    Route::post('/deposit', [RiwayatInvestController::class, 'depo'])->name('depo.store');
+    Route::get('/riwayat-depo/{id}', [RiwayatInvestController::class, 'riwayat'])->name('depo.riwayat');
+    Route::delete('/riwayat-depo/{id}', [RiwayatInvestController::class, 'destroy'])->name('depo.destroy');
+    Route::post('/riwayat-depo/verif/{id}', [RiwayatInvestController::class, 'verif'])->name('depo.verif');
 
-    Route::get('/data-materi/{id}/video', [materiController::class, 'materivideo']);
-    Route::post('/data-materi/video', [materiController::class, 'materivideostore'])->name('materivideo.store');
-    Route::post('/data-materi/videoup', [materiController::class, 'materivideoupdate'])->name('materivideo.update');
-    Route::delete('/data-materi/{id}/video', [materiController::class, 'materivideohapus']);
 
-    Route::get('/data-materi/{id}/tugas', [TugasController::class, 'materitugas']);
-    Route::post('/data-materi/tugas', [TugasController::class, 'materitugasstore'])->name('materitugas.store');
-    Route::post('/data-materi/tugasup', [TugasController::class, 'materitugasupdate'])->name('materitugas.update');
-    Route::delete('/data-materi/{id}/tugas', [TugasController::class, 'materitugashapus']);
+    //data-master
+    //jenisinver
+    Route::prefix('data-master')->group(function () {
+        Route::get('/jenis-investasi', [TipeInvestController::class, 'index'])->name('jenisinvest.index');
+        Route::post('/jenis-investasi', [TipeInvestController::class, 'store'])->name('jenisinvest.store');
+        Route::post('/jenis-investasi/update', [TipeInvestController::class, 'edit'])->name('jenisinvest.update');
+        Route::delete('/jenis-investasi/{id}', [TipeInvestController::class, 'destroy'])->name('jenisinvest.destroy');
+
+    });
+
+
 
 
 

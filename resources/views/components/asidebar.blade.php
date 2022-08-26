@@ -20,21 +20,30 @@
               <li><a class="nav-link" href="{{route('admin.index')}}">Data Admin</a></li>
             </ul>
           </li>
-        <li class="nav-item {{ Request::segment(2) == 'data-notif' ? 'active' : '' }}">
+        <li class="nav-item {{ Request::segment(1) == 'data-notif' ? 'active' : '' }}">
             <a href=" {{ route('notif.index') }}" class="nav-link"><i class="fas fa-columns"></i>
                 <span>Notifikasi</span></a>
 
         </li>
-        <li class="nav-item {{ Request::segment(2) == 'data-notif' ? 'active' : '' }}">
+        <li class="nav-item {{ Request::segment(1) == 'data-notif' ? 'active' : '' }}">
             <a href=" {{ route('notif.index') }}" class="nav-link"><i class="fas fa-columns"></i>
                 <span>Riwayat Deposit</span></a>
-
         </li>
-
+        <li class="nav-item {{ Request::segment(1) == 'saldo-user' ? 'active' : '' }}">
+            <a href=" {{ route('saldo.index') }}" class="nav-link"><i class="fas fa-columns"></i>
+                <span>Saldo User</span></a>
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Data Master</span></a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-link" href="{{route('jenisinvest.index')}}">Data Tipe Investasi </a></li>
+            </ul>
+          </li>
         <li class="menu-header">Manajemen Admin</li>
         <li class="{{ Request::segment(1) == 'profil' ? 'active' : '' }}"><a class="nav-link"
             href="{{ url('profil') }}"><i class="fas fa-pencil-ruler"></i>
             <span>Profil Admin</span></a></li>
+
      
     </ul>
 

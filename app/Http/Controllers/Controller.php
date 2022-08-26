@@ -12,7 +12,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\Deposit;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -54,6 +54,11 @@ class Controller extends BaseController
         $data->is_active = 1;
         $data->save();
         if ($data) {
+            Deposit::create([
+                'id_user' => $d,
+                'total_depo' => 0,
+                'total_wd' => 0
+            ]);
             return 'success';
         }
     }

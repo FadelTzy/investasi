@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('tipe_invests', function (Blueprint $table) {
             $table->id();
+            $table->string('bulan')->nullable();
+            $table->string('periodik')->nullable();
+            $table->string('persenan')->nullable();
             $table->timestamps();
         });
     }
