@@ -136,17 +136,29 @@
                                         class="form-control ">
                                 </div>
                                 <br>
-                                <label for="depos">Jumlah Deposit</label>
-                                <div class="input-group">
-                                    <input tmype="text" disabled id="depos" placeholder="Input Deposit"
-                                        class="form-control ">
-                                </div>
-                                <br>
                                 <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="depos">Jumlah Deposit</label>
+                                        <div class="input-group">
+                                            <input tmype="text" disabled id="depos" placeholder="Input Deposit"
+                                                class="form-control ">
+                                        </div>
+                                    </div>
                                     <div class="col-sm-6">
                                         <label for="depos">Jumlah WD</label>
                                         <div class="input-group">
                                             <input tmype="text" disabled id="wds" name="wd"
+                                                placeholder="Input Deposit" class="form-control ">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="depos">Bonus</label>
+                                        <div class="input-group">
+                                            <input tmype="text" disabled id="bonus" name="bonus"
                                                 placeholder="Input Deposit" class="form-control ">
                                         </div>
                                     </div>
@@ -601,10 +613,13 @@
 
                 $("#wds").val(wd)
                 $("#jml_bonus").val(0);
+                $("#bonus").val(0)
 
             } else {
                 $("#wds").val(total_wd)
                 $("#jml_bonus").val(parseInt(id.o_tipe.persenan * 0.01 * id.total_depo));
+                $("#bonus").val(parseInt(id.o_tipe.persenan * 0.01 * id.total_depo));
+
 
             }
             $("#estimasis").val(total_wd);

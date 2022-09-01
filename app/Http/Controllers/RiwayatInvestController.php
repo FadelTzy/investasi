@@ -9,6 +9,7 @@ use Akaunting\Money\Money;
 use App\Models\User;
 use App\Models\tipeInvest;
 use App\Models\RiwayatInvest;
+use App\Models\saldoUser;
 use Illuminate\Support\Facades\Validator;
 
 class RiwayatInvestController extends Controller
@@ -33,14 +34,27 @@ class RiwayatInvestController extends Controller
 
         if ($data) {
             $inv = pengajuanInvestasi::where('id', $request->id_investasi)->first();
-            $inv->total_depo = $inv->total_depo + $request->deposit;
-            if ($inv->total_depo == $inv->jumlah_investasi) {
-                $inv->status = 2;
-            } else {
-                $inv->status = 1;
+            $saldo = saldoUser::where('id_user',$request->id_user)->first();
+
+            if ($data->status == 2) {
+                $inv->total_depo = $inv->total_depo + 0;
+
+            }else{
+
+                $inv->total_depo = $inv->total_depo + $request->deposit;
+                if ($inv->total_depo == $inv->jumlah_investasi) {
+                    $inv->status = 2;
+                } else {
+                    $inv->status = 1;
+                }
+                $saldo->saldo_active = $saldo->saldo_active - $request->deposit;
+                $saldo->saldo_tertahan = $saldo->saldo_tertahan + $request->deposit;
+                $saldo->save();
             }
+       
+         
             $inv->save();
-            return 'success';
+            return ['status' => 'success', 'data' => $saldo];
         }
     }
     public function riwayat($id)
@@ -104,12 +118,18 @@ class RiwayatInvestController extends Controller
         $data = RiwayatInvest::where('id', $id)->first();
         if ($data) {
             $depo = pengajuanInvestasi::where('id', $data->id_pengajuan)->first();
-            $depo->total_depo = $depo->total_depo - $data->jumlah_depo;
-            if ($depo->total == $depo->jumlah_investasi) {
-                $depo->status = 2;
-            } else {
-                $depo->status = 1;
+            if ($data->status == 1) {
+                $depo->total_depo = $depo->total_depo - $data->jumlah_depo;
+
+                if ($depo->total == $depo->jumlah_investasi) {
+                    $depo->status = 2;
+                } else {
+                    $depo->status = 1;
+                }
+            }else{
+
             }
+          
             $depo->save();
             $data->delete();
             return 'success';
@@ -120,7 +140,7 @@ class RiwayatInvestController extends Controller
         $data = RiwayatInvest::where('id', $id)->first();
      
         if ($data) {
-
+            $saldo = '';
             $depo = pengajuanInvestasi::where('id', $data->id_pengajuan)->first();
             if ($data->status == 1) {
                 $depo->total_depo = $depo->total_depo - $data->jumlah_depo;
@@ -128,15 +148,20 @@ class RiwayatInvestController extends Controller
             }else{
                 $data->status = 1;
                 $depo->total_depo = $depo->total_depo + $data->jumlah_depo;
+                $saldo = saldoUser::where('id_user',$depo->id_user)->first();
+                $saldo->saldo_active = $saldo->saldo_active - $data->jumlah_depo;
+                $saldo->saldo_tertahan = $saldo->saldo_tertahan + $data->jumlah_depo;
+                $saldo->save();
             }
-            if ($depo->total == $depo->jumlah_investasi) {
+            if ($depo->total_depo == $depo->jumlah_investasi) {
                 $depo->status = 2;
             } else {
                 $depo->status = 1;
             }
+
             $depo->save();
             $data->save();
-            return 'success';
+            return ['status' => 'success','data'=>$saldo];
         }
     }
 }

@@ -13,12 +13,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Deposit;
+use App\Models\notif;
+use App\Models\saldoUser;
+use App\Models\riwayatnotif;
+use App\Exports\InvestorExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function profil()
     {
         return view('admin.profil');
+    }
+    public function export()
+    {
+        return Excel::download(new InvestorExport, 'dataInvestor.xlsx');
+
     }
     public function storeprofil(Request $request)
     {
@@ -54,9 +65,10 @@ class Controller extends BaseController
         $data->is_active = 1;
         $data->save();
         if ($data) {
-            Deposit::create([
-                'id_user' => $d,
-                'total_depo' => 0,
+            saldoUser::create([
+                'id_user' => $data->id,
+                'saldo_active' => 0,
+                'saldo_tertahan' => 0,
                 'total_wd' => 0
             ]);
             return 'success';
@@ -94,6 +106,18 @@ class Controller extends BaseController
             ktp::create([
                 'id_user' => $data->id,
                 'nama' => $data->nama,
+            ]);
+            notif::create([
+                'id_item' => $data->id,
+                'jns_notif' => 1,
+                'pesan' => 'Registrasi User Investor',
+                'status' => 1
+            ]);
+            riwayatnotif::create([
+                'id_item' => $data->id,
+                'jns_notif' => 1,
+                'pesan' => 'Registrasi User Investor',
+                'status' => 1
             ]);
             return 'success';
         }
@@ -288,6 +312,8 @@ class Controller extends BaseController
                 })
                 ->rawColumns(['aksi', 'statusnya'])
                 ->make(true);
+        }else{
+            notif::where('jns_notif',1)->delete();
         }
         return view('admin.investor');
     }

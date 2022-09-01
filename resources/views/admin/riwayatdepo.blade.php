@@ -14,12 +14,12 @@
 @endsection
 
 @section('title')
-    Data Admin
+    Data Deposit
 @endsection
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Saldo User - Data Investasi
+            <h1> Data Deposit User
             </h1>
         </div>
         <div class="section-body">
@@ -31,18 +31,17 @@
                                 class="rounded-circle profile-widget-picture">
                             <div class="profile-widget-items">
                                 <div class="profile-widget-item">
-                                    <div class="profile-widget-item-label">Pengajuan Investasi</div>
+                                    <div class="profile-widget-item-label">Pengajuan Deposit</div>
                                     <div class="profile-widget-item-value" id="pengajuannya">.</div>
                                 </div>
                                 <div class="profile-widget-item">
-                                    <div class="profile-widget-item-label">Total Saldo</div>
-                                    <div class="profile-widget-item-value" id="totaldeposit">@money($user->oDatasaldo->saldo_active,'IDR',true)</div>
-                                </div>
-                                <div class="profile-widget-item">
-                                    <div class="profile-widget-item-label">Total Investasi</div>
+                                    <div class="profile-widget-item-label">Total Deposit</div>
                                     <div class="profile-widget-item-value" id="totalinvestasi"></div>
                                 </div>
-                        
+                                <div class="profile-widget-item">
+                                    <div class="profile-widget-item-label">Deposit Terakhir</div>
+                                    <div class="profile-widget-item-value" id="totaldeposit"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="profile-widget-description">
@@ -68,17 +67,15 @@
 
                         <div class="card-body">
                             <div class="float-left">
-                                <h4>Pengajuan Investasi </h4>
+                                <h4>Riwayat Deposit</h4>
 
                             </div>
                             <div class="float-right">
                                 <div class="section-header-button">
-                                    <a type="button" href="{{url('saldo-user/'. Request::segment(2) .'/export')}}"
-                                    class="btn btn-success">Export Data</a>
-                                    <a type="button" href="{{url('saldo-user')}}"
+                                    <a type="button" href="{{url('data-saldo')}}"
                                     class="btn btn-secondary">Kembali</a>
                                     <button data-toggle="modal" data-target="#exampleModal" href="features-post-create.html"
-                                        class="btn btn-primary">Pengajuan</button>
+                                        class="btn btn-primary">Deposit</button>
                                 </div>
                             </div>
 
@@ -89,9 +86,8 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center pt-2">No</th>
-                                            <th>Jumlah Investasi</th>
-                                            <th>Deposit</th>
-                                            <th>Tipe Investasi</th>
+                                            <th>Jumlah Depost</th>
+                                            <th>Tanggal Deposit</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -109,7 +105,7 @@
         <div class="modal-dialog  modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data Investasi</h5>
+                    <h5 class="modal-title">Tambah Data</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -118,26 +114,26 @@
                     <form id="datapengajuan" method="POST">
 
                         @csrf
-                        <input type="hidden" name="id" value="{{ Request::segment(2) }}">
+                        <input type="hidden" name="id" value="{{ Request::segment(3) }}">
                         <div class="form-group">
-                      
-                            <label for="Nama">Jumlah Investasi</label>
+                            <label for="Nama">Nama</label>
                             <div class="input-group">
-                                <input type="number" name="investasi" required placeholder="Input Investasi"
+
+                                <input type="text" value="{{$user->nama}}" placeholder="Input Investasi"
                                     class="form-control">
                             </div>
-                            <br>
-                            <label for="Nama">Jenis Investasi</label>
-                            <div class="input-group">
-                                <select class="form-control" required name="tipe" id="">
-                                    <option selected disabled>Pilih Jenis Investasi</option>
-                                    @foreach ($tipe as $item)
-                                        <option value="{{ $item->id }}">{{ $item->periodik }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <br>
 
+
+                            <br>
+                            <label for="Nama">Jumlah Deposit</label>
+                            <div class="input-group">
+
+                                <input type="number" name="depo" required placeholder="Input Deposit"
+                                    class="form-control">
+                            </div>
+
+
+                            <br>
                         </div>
 
 
@@ -184,15 +180,7 @@
                                 <br>
                                 <label for="Nama">Jenis Investasi</label>
 
-                                <div class="input-group">
-                                    <select class="form-control" required name="tipe" id="tipeu">
-                                        <option selected disabled>Pilih Jenis Investasi</option>
-                                        @foreach ($tipe as $item)
-                                            <option value="{{ $item->id }}">{{ $item->periodik }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <br>
+                      
 
                             </div>
 
@@ -231,14 +219,6 @@
                             <input type="hidden" id="sisanya">
                             <input type="hidden" name="id_user" id="id_useru">
                             <input type="hidden" name="id_investasi" id="id_investasiu">
-                            <input type="hidden" name="sisasaldo" value="{{$user->oDatasaldo->saldo_active}}" id="sisasaldo">
-                            <label for="Nama">Saldo</label>
-                            <div class="input-group">
-                                <input type="text" name="saldo" id="sisasaldoo" value="@money($user->oDatasaldo->saldo_active,'IDR',true)" required placeholder="Input "
-                                    class="form-control">
-                            </div>
-                            <br>
-                            
                             <div class="form-group">
                                 <label for="depos">Jumlah Deposit</label>
                                 <div class="input-group">
@@ -333,17 +313,12 @@
                     $("#pengajuannya").html(api.rows()[0].length)
                     // api.column( 4, {page:'current'} ).data().sum();
                     var n = api
-                        .column(6)
+                        .column(5)
                         .data()
                         .reduce(function(a, b) {
                             return parseInt(a) + parseInt(b);
                         }, 0);
-                    var d = api
-                        .column(7)
-                        .data()
-                        .reduce(function(a, b) {
-                            return parseInt(a) + parseInt(b);
-                        }, 0);
+                    var t= parseInt(api.column(5).data()[0]);
                     var ti = new Intl.NumberFormat('en-ID', {
                         style: 'currency',
                         currency: 'IDR'
@@ -351,9 +326,10 @@
                     var td = new Intl.NumberFormat('en-ID', {
                         style: 'currency',
                         currency: 'IDR'
-                    }).format(d);
+                    }).format(t);
+                
                     $("#totalinvestasi").html(ti);
-                    // $("#totaldeposit").html(td);
+                    $("#totaldeposit").html(td);
 
                     console.log(n)
                 },
@@ -374,65 +350,48 @@
                     },
                     {
                         orderable: false,
-
                         targets: 3,
                         width: "20%",
 
                     },
                     {
                         orderable: false,
-
                         targets: 4,
                         width: "20%",
 
                     },
+                 
                     {
                         orderable: false,
-
+                        visible: false,
                         targets: 5,
                         width: "20%",
 
                     },
-                    {
-                        orderable: false,
-                        visible: false,
-                        targets: 6,
-                        width: "20%",
-
-                    },
-                    {
-                        orderable: false,
-                        visible: false,
-                        targets: 7,
-                        width: "20%",
-
-                    },
+               
 
                 ],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: url + '/saldo-user/' + '{{ Request::segment(2) }}',
+                    url: url + '/data-saldo/riwayat-deposit/' + '{{ Request::segment(3) }}',
                 },
                 columns: [{
                         nama: 'DT_RowIndex',
                         data: 'DT_RowIndex'
                     }, {
-                        nama: 'investnya',
-                        data: 'investnya'
+                        nama: 'jumlahnya',
+                        data: 'jumlahnya'
                     },
                     {
-                        nama: 'deponya',
-                        data: 'deponya'
-                    },
-                    {
-                        nama: 'tipenya',
-                        data: 'tipenya'
+                        nama: 'tanggalnya',
+                        data: 'tanggalnya'
                     },
                     {
                         nama: 'statusnya',
                         data: 'statusnya'
                     },
+                 
 
                     {
                         name: 'aksi',
@@ -440,14 +399,11 @@
                     },
 
                     {
-                        name: 'datainves',
-                        data: 'datainves',
-                    },
-
-                    {
                         name: 'datadepo',
                         data: 'datadepo',
-                    }
+                    },
+
+               
                 ],
 
             });
@@ -458,18 +414,12 @@
         $("#datasubmit").on('click', function() {
             $("#datapengajuan").trigger('submit');
         });
-        $("#datasubmitu").on('click', function() {
-            $("#datapengajuanu").trigger('submit');
-        });
-        $("#submitdepo").on('click', function() {
-            $("#datadeposit").trigger('submit');
-        });
         $("#datapengajuan").on('submit', function(id) {
             id.preventDefault();
             var data = $(this).serialize();
             $.LoadingOverlay("show");
             $.ajax({
-                url: '{{ route('pengajuan.store') }}',
+                url: '{{ route('saldouser.store') }}',
                 data: new FormData(this),
                 type: "POST",
                 contentType: false,
@@ -510,6 +460,13 @@
 
 
         });
+        $("#datasubmitu").on('click', function() {
+            $("#datapengajuanu").trigger('submit');
+        });
+        $("#submitdepo").on('click', function() {
+            $("#datadeposit").trigger('submit');
+        });
+      
         $("#datapengajuanu").on('submit', function(id) {
             id.preventDefault();
             var data = $(this).serialize();
@@ -556,12 +513,12 @@
 
         });
         $("#datadeposit").on('submit', function(id) {
-            var sisa = parseInt($("#sisasaldo").val());
-            var aju = parseInt($("#depos").val());
+            var sisa = $("#sisanya").val();
+            var aju = $("#depos").val();
             if (sisa < aju) {
                 iziToast.error({
                     title: 'Gagal Depo!',
-                    message: 'Melebihi Sisa Saldo',
+                    message: 'Melebihi Sisa Investasi',
                     position: 'topRight'
                 });
                 return false;
@@ -576,6 +533,7 @@
                     contentType: false,
                     processData: false,
                     success: function(id) {
+                        console.log(id);
                         $.LoadingOverlay("hide");
                         if (id.status == 'error') {
                             var data = id.data;
@@ -602,11 +560,8 @@
                                 position: 'topRight'
                             });
                             $("#modalDepo").modal('hide');
-                            var saldo = id.data.saldo_active;
-                            $("#totaldeposit").html(idr(saldo));
-                            $("#sisasaldo").val(saldo)
-                            $("#sisasaldoo").val(idr(saldo))
-                            console.log(saldo,'ini');
+                      
+
                         }
                         tabel.ajax.reload();
                         tabelriwayat.ajax.reload();
@@ -616,7 +571,7 @@
 
         });
 
-        function resetInvestasi(id) {
+        function staffdel(id) {
             data = confirm("Klik Ok Untuk Melanjutkan");
             console.log(id);
             if (data) {
@@ -627,7 +582,7 @@
                 });
                 $.LoadingOverlay("show");
                 $.ajax({
-                    url: url + '/saldo-user/pengajuan-investasi/' + id,
+                    url: url + '/data-saldo/riwayat-deposit/' + id,
                     type: "delete",
                     success: function(e) {
                         $.LoadingOverlay("hide");
@@ -639,13 +594,6 @@
                             });
                             tabel.ajax.reload();
 
-                        }else{
-                            iziToast.warning({
-                                title: 'Tidak bisa mereset!',
-                                message: 'Status Investasi telah selesai',
-                                position: 'topRight'
-                            });
-                            tabel.ajax.reload();
                         }
                     }
                 })
@@ -824,7 +772,6 @@
                     url: url + '/riwayat-depo/' + id,
                     type: "delete",
                     success: function(e) {
-                        console.log(e);
                         $.LoadingOverlay("hide");
                         if (e == 'success') {
                             iziToast.success({
@@ -856,18 +803,13 @@
                     url: url + '/riwayat-depo/verif/' + id,
                     type: "post",
                     success: function(e) {
-                        console.log(e.data);
                         $.LoadingOverlay("hide");
-                        if (e.status == 'success') {
+                        if (e == 'success') {
                             iziToast.success({
                                 title: 'Succes!',
                                 message: 'Data tersimpan',
                                 position: 'topRight'
                             });
-                            var saldo = e.data.saldo_active;
-                            $("#totaldeposit").html(idr(saldo));
-                            $("#sisasaldo").val(saldo)
-                            $("#sisasaldoo").val(idr(saldo))
                             tabel.ajax.reload();
                             tabelriwayat.ajax.reload();
                         }
@@ -875,9 +817,6 @@
                 })
 
             }
-        }
-        function idr(uang) {
-          return  new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(uang);
         }
     </script>
 @endpush

@@ -29,12 +29,13 @@
 
                         <div class="card-body">
                             <div class="float-left">
-                                <h4>Notifkasi</h4>
+                                <h4>Notifikasi</h4>
 
                             </div>
                             <div class="float-right">
                                 <div class="section-header-button">
-                              
+                                    <a  href="{{route('riwayatnotif.index')}}"
+                                    class="btn btn-primary">Riwayat Notifikasi</a>
                                 </div>
                             </div>
                             <div class="clearfix mb-3"></div>
@@ -459,18 +460,18 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('investor.index') }}",
+                    url: "{{ route('notif.index') }}",
                 },
                 columns: [{
                         nama: 'DT_RowIndex',
                         data: 'DT_RowIndex'
                     }, {
-                        nama: 'nama',
-                        data: 'nama'
+                        nama: 'pesan',
+                        data: 'pesan'
                     },
                     {
-                        nama: 'statusnya',
-                        data: 'statusnya'
+                        nama: 'rolenya',
+                        data: 'rolenya'
                     },
                     {
                         name: 'aksi',

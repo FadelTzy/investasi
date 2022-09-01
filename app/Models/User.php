@@ -32,6 +32,18 @@ class User extends Authenticatable
     {
         return $this->hasOne(ktp::class, 'id_user', 'id');
     }
+    public function oDatasaldo()
+    {
+        return $this->hasOne(saldoUser::class, 'id_user', 'id');
+    }
+    public function mDeposit()
+    {
+        return $this->hasMany(Deposit::class, 'id_user', 'id');
+    }
+    public function mWd()
+    {
+        return $this->hasMany(Withdraw::class, 'id_user', 'id');
+    }
     public function oSaldo()
     {
         return $this->hasMany(pengajuanInvestasi::class, 'id_user', 'id');

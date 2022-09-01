@@ -8,10 +8,18 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\pengajuanInvestasi;
 use Akaunting\Money\Money;
 use App\Models\RiwayatInvest;
+use App\Models\saldoUser;
 use App\Models\User;
 use App\Models\tipeInvest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InvestasiUserExport;
 class PengajuanInvestasiController extends Controller
 {
+    public function exportt($id)
+    {
+        return Excel::download(new InvestasiUserExport($id), 'dataPengajuan.xlsx');
+
+    }
     public function storewd(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -23,7 +31,7 @@ class PengajuanInvestasiController extends Controller
             return $data;
         }
         $data = pengajuanInvestasi::where('id', $request->id_investasi)->first();
-
+        
         $data->total_wd = $request->jml_wd;
         $data->total_bonus = $request->jml_bonus;
         $data->tanggal_penarikan = date('Y/m/d');
@@ -32,6 +40,10 @@ class PengajuanInvestasiController extends Controller
         $data->save();
 
         if ($data) {
+            $saldo = saldoUser::where('id_user',$data->id_user)->first();
+            $saldo->saldo_tertahan = $saldo->saldo_tertahan - $data->total_wd;
+            $saldo->saldo_active = $saldo->saldo_active + ($data->total_wd + $data->total_bonus);
+            $saldo->save();
             return 'success';
         }
     }
@@ -88,11 +100,11 @@ class PengajuanInvestasiController extends Controller
                     return $btn;
                 })
                 ->addColumn('datainves', function ($data) {
-                    $btn = $data->total_wd;;
+                    $btn = $data->total_wd;
                     return $btn;
                 })
                 ->addColumn('databonus', function ($data) {
-                    $btn = $data->total_bonus;;
+                    $btn = $data->total_bonus;
                     return $btn;
                 })
                 ->addColumn('deponya', function ($data) {
@@ -128,7 +140,7 @@ class PengajuanInvestasiController extends Controller
     public function pengajuan($id)
     {
         $tipe = tipeInvest::get();
-        $user = User::with('oKtp')
+        $user = User::with('oKtp','oDatasaldo')
             ->where('id', $id)
             ->first();
         if (request()->ajax()) {
@@ -263,10 +275,20 @@ class PengajuanInvestasiController extends Controller
     {
         $data = pengajuanInvestasi::where('id', $id)->first();
         if ($data) {
-            RiwayatInvest::where('id_pengajuan', $id)->delete();
-            $data->total_depo = 0;
-            $data->save();
-            return 'success';
+            if ($data->status_investasi == 1) {
+                RiwayatInvest::where('id_pengajuan', $id)->delete();
+                $saldo = saldoUser::where('id_user',$data->id_user)->first();
+                $saldo->saldo_tertahan = $saldo->saldo_tertahan - $data->total_depo;
+                $saldo->saldo_active = $saldo->saldo_active + $data->total_depo;
+                $saldo->save();
+                $data->total_depo = 0;
+                $data->save();
+                return 'success';
+            }else{
+                return 'warning';
+            }
+            
+         
         }
     }
     public function delete($id)

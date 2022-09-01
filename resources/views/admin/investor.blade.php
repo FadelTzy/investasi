@@ -34,6 +34,8 @@
                             </div>
                             <div class="float-right">
                                 <div class="section-header-button">
+                                 <a target="_blank" href="{{route('investor.export')}}"
+                                        class="btn btn-success">Export</a>
                                     <button data-toggle="modal" data-target="#exampleModal" href="features-post-create.html"
                                         class="btn btn-primary">Add New</button>
                                 </div>

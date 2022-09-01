@@ -1,9 +1,9 @@
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <a href="index.html">LMS</a>
+        <a href="index.html">Investasi</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-        <a href="index.html">St</a>
+        <a href="index.html">Admin</a>
     </div>
     <ul class="sidebar-menu">
         <li class="menu-header">Menu</li>
@@ -25,13 +25,13 @@
                 <span>Notifikasi</span></a>
 
         </li>
-        <li class="nav-item {{ Request::segment(1) == 'data-notif' ? 'active' : '' }}">
-            <a href=" {{ route('notif.index') }}" class="nav-link"><i class="fas fa-columns"></i>
-                <span>Riwayat Deposit</span></a>
+        <li class="nav-item {{ Request::segment(1) == 'data-saldo' ? 'active' : '' }}">
+            <a href=" {{ route('saldouser.index') }}" class="nav-link"><i class="fas fa-columns"></i>
+                <span>Saldo User</span></a>
         </li>
         <li class="nav-item {{ Request::segment(1) == 'saldo-user' ? 'active' : '' }}">
             <a href=" {{ route('saldo.index') }}" class="nav-link"><i class="fas fa-columns"></i>
-                <span>Saldo User</span></a>
+                <span>Investasi</span></a>
         </li>
         <li class="nav-item dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Data Master</span></a>

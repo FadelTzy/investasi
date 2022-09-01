@@ -14,12 +14,12 @@
 @endsection
 
 @section('title')
-    Data Investasi
+    Data Admin
 @endsection
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1> Investasi User
+            <h1> Data Saldo User
             </h1>
         </div>
         <div class="section-body">
@@ -29,12 +29,13 @@
 
                         <div class="card-body">
                             <div class="float-left">
-                                <h4>Manajemen Data Investasi</h4>
+                                <h4>Manajemen Data Saldo</h4>
 
                             </div>
                             <div class="float-right">
                                 <div class="section-header-button">
-                                 
+                                    <a  href="{{route('saldouser.export')}}"
+                                    class="btn btn-success">Export</a>
                                 </div>
                             </div>
 
@@ -44,10 +45,12 @@
                                 <table class="table table-striped" id="dt">
                                     <thead>
                                         <tr>
-                                            <th class="text-center pt-2">No</th>
+                                            <th class="text-center pt-2">no</th>
                                             <th>Nama</th>
+                                            <th>Saldo Aktive</th>
+                                            <th>Saldo Tertahan</th>
                                             <th>Total Deposit</th>
-                                            <th>Total Investasi</th>
+                                            <th>Total WD</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -60,94 +63,17 @@
             </div>
         </div>
     </section>
-    <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
-        <div class="modal-dialog  modal-md" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" id="depouser">
+        <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data Admin</h5>
+                    <h5 class="modal-title">Deposit User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="dataadmin" method="POST">
-
-                        @csrf
-                        <div class="form-group">
-                            <label for="Nama">Nama</label>
-                            <div class="input-group">
-
-                                <input type="text" name="nama" required placeholder="Input Nama" class="form-control">
-                            </div>
-
-                            <br>
-                            <label for="Nama">Email</label>
-
-                            <div class="input-group">
-
-                                <input type="text" name="email" required placeholder="Input Email" class="form-control">
-                            </div>
-                            <br>
-                            <label for="Nama">Username</label>
-
-                            <div class="input-group">
-                                <input type="text" name="username" required placeholder="Input Username" class="form-control ">
-                            </div>
-                            <br>
-                            <label for="Nama">Role</label>
-
-                            <div class="input-group">
-                                <select class="form-control" required name="role" id="">
-                                    <option selected disabled>Pilih Role Akun</option>
-                                    <option value="1">Super Admin</option>
-                                    <option value="2">Admin</option>
-
-                                </select>
-                            </div>
-                            <br>
-                         
-                            <div class="form-group">
-                                <label>Password</label>
-                                <div class="input-group">
-                                   
-                                    <input type="password" required name="password" id="passfield" class="form-control">
-                                    <div style="cursor: pointer" id="passeye" class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-eye"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        {{-- <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right "></label>
-                            <div class="col-sm-12 col-md-7">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </div> --}}
-                    </form>
-                </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button id="datasubmit" type="button" class="btn btn-primary">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="up">
-        <div class="modal-dialog  modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Data Admin</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="dataadminu" method="POST">
+                    <form id="formdepo" method="POST">
                         <div class="card-body">
 
                             @csrf
@@ -156,42 +82,20 @@
                                 <label for="Nama">Nama</label>
                                 <div class="input-group">
 
-                                    <input type="text" id="namau" name="nama" placeholder="Input Nama"
+                                    <input type="text" id="namadepo" name="nama" placeholder="Input Nama"
                                         class="form-control phone-number">
                                 </div>
 
                                 <br>
-                                <label for="Nama">Alamat</label>
+
+                                <label for="Nama">Jumlah Deposit</label>
 
                                 <div class="input-group">
 
-                                    <input type="text" id="alamatu" name="alamat" placeholder="Input Alamat"
-                                        class="form-control phone-number">
+                                    <input type="number" name="depo" placeholder="Input Deposit" class="form-control ">
                                 </div>
                                 <br>
-                                <label for="Nama">Email</label>
 
-                                <div class="input-group">
-
-                                    <input type="text" id="emailu" name="email" placeholder="Input Email"
-                                        class="form-control phone-number">
-                                </div>
-                                <br>
-                                <label for="Nama">Nomor</label>
-
-                                <div class="input-group">
-
-                                    <input type="text" id="nomoru" name="nomor" placeholder="Input No"
-                                        class="form-control phone-number">
-                                </div>
-                                <br>
-                                <label for="Nama">Password</label>
-
-                                <div class="input-group">
-
-                                    <input type="text" name="password" placeholder="Set Password Baru"
-                                        class="form-control phone-number">
-                                </div>
                             </div>
 
 
@@ -206,7 +110,68 @@
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="datasubmitu" type="button" class="btn btn-primary">Save changes</button>
+                    <button id="btndepo" type="button" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="wduser">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Penarikan User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formwd" method="POST">
+                        <div class="card-body">
+
+                            @csrf
+                            <input type="hidden" name="id" id="idwd">
+                            <input type="hidden" name="sisasaldoo" id="sisasaldoo">
+                            <div class="form-group">
+                                <label for="Nama">Nama</label>
+                                <div class="input-group">
+
+                                    <input type="text" id="namawd" name="nama" placeholder="Input Nama"
+                                        class="form-control ">
+                                </div>
+
+                                <br>
+                                <label for="Saldo">Saldo</label>
+                                <div class="input-group">
+
+                                    <input type="text" id="sisasaldo" name="sisasaldo" placeholder="Input Nama"
+                                        class="form-control ">
+                                </div>
+
+                                <br>
+                                <label for="Nama">Jumlah Penarikan</label>
+
+                                <div class="input-group">
+
+                                    <input type="number" id="wd" name="wd" placeholder="Input WD"
+                                        class="form-control ">
+                                </div>
+                                <br>
+
+                            </div>
+
+
+                            {{-- <div class="form-group row mb-4">
+                                    <label class="col-form-label text-md-right "></label>
+                                    <div class="col-sm-12 col-md-7">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </div> --}}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="btnwd" type="button" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>
@@ -268,14 +233,26 @@
                         width: "20%",
 
                     },
-                   
+                    {
+                        orderable: false,
+
+                        targets: 5,
+                        width: "20%",
+
+                    }, {
+                        orderable: false,
+
+                        targets: 6,
+                        width: "20%",
+
+                    },
 
 
                 ],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('saldo.index') }}",
+                    url: "{{ route('saldouser.index') }}",
                 },
                 columns: [{
                         nama: 'DT_RowIndex',
@@ -285,14 +262,22 @@
                         data: 'nama'
                     },
                     {
+                        nama: 'saldonya',
+                        data: 'saldonya'
+                    },
+                    {
+                        nama: 'saldotnya',
+                        data: 'saldotnya'
+                    },
+                    {
                         nama: 'deponya',
                         data: 'deponya'
                     },
                     {
-                        nama: 'investnya',
-                        data: 'investnya'
+                        nama: 'wdnya',
+                        data: 'wdnya'
                     },
-                   
+
                     {
                         name: 'aksi',
                         data: 'aksi',
@@ -300,6 +285,117 @@
                 ],
 
             });
+
+
+
+        });
+        //depo form dan btn
+        $("#btndepo").on('click', function() {
+            $("#formdepo").trigger('submit');
+        });
+        $("#formdepo").on('submit', function(id) {
+            id.preventDefault();
+            var data = $(this).serialize();
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: '{{ route('saldouser.store') }}',
+                data: new FormData(this),
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function(id) {
+                    console.log(id);
+                    $.LoadingOverlay("hide");
+                    if (id.status == 'error') {
+                        var data = id.data;
+                        var elem;
+                        var result = Object.keys(data).map((key) => [data[key]]);
+                        elem =
+                            '<div><ul>';
+
+                        result.forEach(function(data) {
+                            elem += '<li>' + data[0][0] + '</li>';
+                        });
+                        elem += '</ul></div>';
+                        iziToast.error({
+                            title: 'Error',
+                            message: elem,
+                            position: 'topRight'
+                        });
+
+                    } else {
+                        $("#formdepo").trigger('reset')
+                        iziToast.success({
+                            title: 'Succes!',
+                            message: 'Data tersimpan',
+                            position: 'topRight'
+                        });
+                        $("#depouser").modal('hide');
+                        tabel.ajax.reload();
+
+                    }
+                }
+            })
+
+
+        });
+        //wd form dan btn
+        $("#btnwd").on('click', function() {
+            $("#formwd").trigger('submit');
+        });
+        $("#formwd").on('submit', function(id) {
+            id.preventDefault();
+            var wd = parseInt($("#wd").val());
+            var sisa = parseInt($("#sisasaldoo").val());
+            console.log(wd,sisa,'ini')
+            if (wd > sisa) {
+                iziToast.warning({
+                            message: 'Melebihi Batas Saldo Anda',
+                            position: 'topRight'
+                        });
+            } else {
+                var data = $(this).serialize();
+                $.LoadingOverlay("show");
+                $.ajax({
+                    url: '{{ route('withdrawuser.store') }}',
+                    data: new FormData(this),
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function(id) {
+                        console.log(id);
+                        $.LoadingOverlay("hide");
+                        if (id.status == 'error') {
+                            var data = id.data;
+                            var elem;
+                            var result = Object.keys(data).map((key) => [data[key]]);
+                            elem =
+                                '<div><ul>';
+
+                            result.forEach(function(data) {
+                                elem += '<li>' + data[0][0] + '</li>';
+                            });
+                            elem += '</ul></div>';
+                            iziToast.error({
+                                title: 'Error',
+                                message: elem,
+                                position: 'topRight'
+                            });
+
+                        } else {
+                            $("#formwd").trigger('reset')
+                            iziToast.success({
+                                title: 'Succes!',
+                                message: 'Data tersimpan',
+                                position: 'topRight'
+                            });
+                            $("#wduser").modal('hide');
+                            tabel.ajax.reload();
+
+                        }
+                    }
+                })
+            }
 
 
 
@@ -412,9 +508,8 @@
                     }
                 });
                 $.LoadingOverlay("show");
-
                 $.ajax({
-                    url: url + '/admin/data-admin/' + id,
+                    url: url + '/data-saldo/reset/' + id,
                     type: "delete",
                     success: function(e) {
                         $.LoadingOverlay("hide");
@@ -478,15 +573,28 @@
 
 
         }
-        var eye =1;
-        $("#passeye").on('click',function () {
-            if (eye == 1) {
-                $("#passfield").attr('type','text');
-                eye = 0;
-            }else{
-                $("#passfield").attr('type','password');
-                eye = 1;
-            }
-        })
+
+        function depo(id) {
+            $('#depouser').modal('show');
+            console.log(id);
+            $("#namadepo").val(id.nama);
+
+
+            $("#idu").val(id.id);
+        }
+
+        function wd(id) {
+            $('#wduser').modal('show');
+            console.log(id);
+            $("#namawd").val(id.nama);
+            var ss = id.o_datasaldo.saldo_active;
+            $("#sisasaldoo").val(ss);
+            var sisa = new Intl.NumberFormat('en-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(ss);
+            $("#sisasaldo").val(sisa);
+            $("#idwd").val(id.id);
+        }
     </script>
 @endpush

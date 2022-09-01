@@ -15,11 +15,11 @@
         <div class="section-body">
             <div class="alert alert-info alert-has-icon">
                 <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
-       
-                    <div class="alert-body">
-                        <div class="alert-title">Selamat Datang Di Dashboard Admin </div>
-                    </div>
-              
+
+                <div class="alert-body">
+                    <div class="alert-title">Selamat Datang Di Dashboard Admin </div>
+                </div>
+
 
             </div>
         </div>
@@ -33,9 +33,10 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Mata Kuliah</h4>
+                                <h4>Total Investor</h4>
                             </div>
                             <div class="card-body">
+                                10
                             </div>
                         </div>
                     </div>
@@ -47,10 +48,10 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4> Total Dosen</h4>
+                                <h4> Total Deposit</h4>
                             </div>
                             <div class="card-body">
-
+                                @money(1000000, 'IDR', true)
                             </div>
                         </div>
                     </div>
@@ -62,9 +63,10 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Total Mahasiswa</h4>
+                                <h4>Total WithDraw</h4>
                             </div>
                             <div class="card-body">
+                                @money(300000, 'IDR', true)
 
                             </div>
                         </div>
@@ -77,20 +79,20 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Pusing</h4>
+                                <h4>User Admin</h4>
                             </div>
                             <div class="card-body">
-
+2
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-           
+
             </div>
             <br>
- 
+
         </section>
     </section>
 @endsection
@@ -98,5 +100,4 @@
 
 @push('js')
     <!-- Page Specific JS File -->
-
 @endpush

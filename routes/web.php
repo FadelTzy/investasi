@@ -3,9 +3,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\NotifController;
+use App\Http\Controllers\RiwayatnotifController;
 use App\Http\Controllers\TipeInvestController;
 use App\Http\Controllers\PengajuanInvestasiController;
 use App\Http\Controllers\RiwayatInvestController;
+use App\Http\Controllers\SaldoUserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
   
 
     Route::get('/data-investor', [Controller::class, 'investor'])->name('investor.index');
+    Route::get('/data-investor/export', [Controller::class, 'export'])->name('investor.export');
+
     Route::post('/data-investor', [Controller::class, 'investorstore'])->name('investor.store');
     Route::post('/data-investorktp', [Controller::class, 'investorktpstore'])->name('investorktp.store');
 
@@ -45,11 +51,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/data-notif/update', [NotifController::class, 'notifupdate'])->name('notif.update');
     Route::delete('/data-notif/{id}', [NotifController::class, 'notifhapus'])->name('notif.destroy');
 
+    //riwayatnotif
+    Route::get('/riwayat-notif', [RiwayatnotifController::class, 'notif'])->name('riwayatnotif.index');
+    Route::delete('/riwayat-notif/{id}', [RiwayatnotifController::class, 'notifhapus'])->name('riwayatnotif.destroy');
+
     //saldo-user
     Route::get('/saldo-user', [DepositController::class, 'saldo'])->name('saldo.index');
     //pengajuan
 
     Route::get('/saldo-user/{id}', [PengajuanInvestasiController::class, 'pengajuan'])->name('pengajuan.index');
+    Route::get('/saldo-user/{id}/export', [PengajuanInvestasiController::class, 'exportt'])->name('pengajuan.export');
+
     Route::post('/saldo-user/pengajuan-investasi', [PengajuanInvestasiController::class, 'store'])->name('pengajuan.store');
     Route::post('/saldo-user/pengajuan-investasi/edit', [PengajuanInvestasiController::class, 'edit'])->name('pengajuan.edit');
     Route::delete('/saldo-user/pengajuan-investasi/{id}', [PengajuanInvestasiController::class, 'destroy'])->name('pengajuan.destroy');
@@ -64,6 +76,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/riwayat-depo/{id}', [RiwayatInvestController::class, 'destroy'])->name('depo.destroy');
     Route::post('/riwayat-depo/verif/{id}', [RiwayatInvestController::class, 'verif'])->name('depo.verif');
 
+    //saldouser
+    Route::get('/data-saldo', [SaldoUserController::class, 'index'])->name('saldouser.index');
+    Route::get('/data-saldo/export', [SaldoUserController::class, 'export'])->name('saldouser.export');
+
+    Route::post('/data-saldo/deposit', [SaldoUserController::class, 'storedepo'])->name('saldouser.store');
+    Route::post('/data-saldo/withdraw', [SaldoUserController::class, 'storewithdraw'])->name('withdrawuser.store');
+    Route::delete('/data-saldo/reset/{id}', [SaldoUserController::class, 'reset']);
+
+    //depouser
+    Route::get('/data-saldo/riwayat-deposit/{id}', [DepositController::class, 'riwayat']);
+    Route::delete('/data-saldo/riwayat-deposit/{id}', [DepositController::class, 'delete']);
+    //wduser
+    Route::get('/data-saldo/riwayat-wd/{id}', [DepositController::class, 'riwayatwd']);
+    Route::delete('/data-saldo/riwayat-wd/{id}', [DepositController::class, 'deletewd']);
 
     //data-master
     //jenisinver
