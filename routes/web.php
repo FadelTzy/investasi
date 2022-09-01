@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\API\CAIUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepositController;
@@ -25,11 +27,13 @@ use App\Http\Controllers\SaldoUserController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::post('apiregister',  [CAIUser::class, 'store']);
+
 Route::group(['middleware' => ['auth']], function () {
 
-    
+
     Route::get('/', [Controller::class, 'index'])->name('admin');
-  
+
 
     Route::get('/data-investor', [Controller::class, 'investor'])->name('investor.index');
     Route::get('/data-investor/export', [Controller::class, 'export'])->name('investor.export');
@@ -105,11 +109,11 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-Route::get('/profil', [Controller::class, 'profil']);
-Route::post('/profil', [Controller::class, 'storeprofil']);
+    Route::get('/profil', [Controller::class, 'profil']);
+    Route::post('/profil', [Controller::class, 'storeprofil']);
 });
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
